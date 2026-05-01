@@ -1,13 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+// src/book/book.service.ts
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { supabase } from 'src/common/supabase';
+import { StorageService } from 'src/common/storage.service';
 
 @Injectable()
 export class BookService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private storageService: StorageService,
+  ) {}
 
   async create(data: any, userId: number, publicId: string) {
     if (!data.fileUrl) {
@@ -54,9 +58,10 @@ export class BookService {
     if (!book) throw new Error('Book not found');
     if (book.uploadedById !== userId) throw new Error('Forbidden');
 
-    // delete file from Supabase
-    await supabase.storage.from('books').remove([book.publicId]);
+    // delete from storage first
+    await this.storageService.delete(book.publicId);
 
+    // then delete DB record
     return this.prisma.book.delete({
       where: { id: bookId },
     });

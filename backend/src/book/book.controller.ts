@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -27,11 +28,14 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import multer from 'multer';
 
-import { supabase } from 'src/common/supabase';
+import { StorageService } from 'src/common/storage.service';
 
 @Controller('books')
 export class BookController {
-  constructor(private bookService: BookService) {}
+  constructor(
+    private bookService: BookService,
+    private storageService: StorageService,
+  ) {}
 
   @Post('upload')
   @UseGuards(JwtGuard, RolesGuard)
@@ -46,28 +50,23 @@ export class BookController {
 
     const fileName = `${Date.now()}-${file.originalname}`;
 
-    const { error } = await supabase.storage
-      .from('books')
-      .upload(fileName, file.buffer, {
-        contentType: file.mimetype,
-      });
+    // upload to your bucket
+    const fileUrl = await this.storageService.upload(
+      fileName,
+      file.buffer,
+      file.mimetype,
+    );
 
-    if (error) {
-      console.log('SUPABASE ERROR:', error);
-      throw new Error('Upload failed');
-    }
-
-    const { data } = supabase.storage.from('books').getPublicUrl(fileName);
-
+    // save in DB
     return this.bookService.create(
       {
         title: body.title,
         description: body.description,
-        fileUrl: data.publicUrl,
+        fileUrl, // ← directly use returned URL
         imageUrl: body.imageUrl,
       },
       req.user.userId,
-      fileName, // storage key
+      fileName,
     );
   }
 
