@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, Github, Twitter, Mail } from "lucide-react";
+import { BookOpen, Twitter, Mail, ExternalLink } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -74,7 +74,7 @@ export default function Footer() {
                 className="w-10 h-10 rounded-lg glass flex items-center justify-center text-foreground-muted hover:text-primary hover:border-primary/30 transition-all duration-200"
                 aria-label="GitHub"
               >
-                <Github className="w-5 h-5" />
+                <ExternalLink className="w-5 h-5" />
               </a>
               <a 
                 href="#" 
