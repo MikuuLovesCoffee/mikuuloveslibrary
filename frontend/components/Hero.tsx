@@ -28,7 +28,8 @@ export default function Hero() {
         
         {/* Floating book icons */}
         <motion.div
-          className="absolute top-20 right-[15%] text-primary/20"
+          className="absolute top-20 right-[15%]"
+          style={{ color: "rgba(212, 165, 116, 0.2)" }}
           animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         >
@@ -36,7 +37,8 @@ export default function Hero() {
         </motion.div>
         
         <motion.div
-          className="absolute bottom-32 left-[10%] text-primary/15"
+          className="absolute bottom-32 left-[10%]"
+          style={{ color: "rgba(212, 165, 116, 0.15)" }}
           animate={{ y: [0, 12, 0], rotate: [0, -8, 0] }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
         >
@@ -53,8 +55,8 @@ export default function Hero() {
           transition={{ duration: 0.5 }}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8"
         >
-          <Sparkles className="w-4 h-4 text-primary" />
-          <span className="text-sm font-medium text-foreground">
+          <Sparkles className="w-4 h-4" style={{ color: "#d4a574" }} />
+          <span className="text-sm font-medium" style={{ color: "#fafaf9" }}>
             Discover your next favorite book
           </span>
         </motion.div>
@@ -64,7 +66,8 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-4xl sm:text-5xl lg:text-7xl font-bold text-foreground leading-tight text-balance"
+          className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight"
+          style={{ color: "#fafaf9" }}
         >
           Your Personal
           <br />
@@ -76,7 +79,8 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-6 text-lg sm:text-xl text-foreground-muted max-w-2xl mx-auto leading-relaxed text-balance"
+          className="mt-6 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed"
+          style={{ color: "#a8a8a8" }}
         >
           Explore a curated collection of books shared by readers like you. 
           Upload your favorites, discover hidden gems, and join a community 
@@ -94,7 +98,8 @@ export default function Hero() {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="group flex items-center gap-2 px-8 py-4 rounded-xl bg-primary text-background font-semibold text-lg hover:bg-primary-hover transition-all shadow-glow"
+              className="group flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-lg transition-all shadow-glow"
+              style={{ backgroundColor: "#d4a574", color: "#0a0a0f" }}
             >
               Get Started
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -105,7 +110,8 @@ export default function Hero() {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="flex items-center gap-2 px-8 py-4 rounded-xl glass font-semibold text-lg text-foreground hover:bg-glass-highlight transition-all"
+              className="flex items-center gap-2 px-8 py-4 rounded-xl glass font-semibold text-lg transition-all"
+              style={{ color: "#fafaf9" }}
             >
               <Upload className="w-5 h-5" />
               Upload a Book
@@ -126,10 +132,10 @@ export default function Hero() {
             { value: "100+", label: "Authors" },
           ].map((stat, index) => (
             <div key={index} className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-primary">
+              <div className="text-2xl sm:text-3xl font-bold" style={{ color: "#d4a574" }}>
                 {stat.value}
               </div>
-              <div className="text-sm text-foreground-muted mt-1">
+              <div className="text-sm mt-1" style={{ color: "#a8a8a8" }}>
                 {stat.label}
               </div>
             </div>
@@ -138,7 +144,10 @@ export default function Hero() {
       </div>
 
       {/* Bottom Gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+      <div 
+        className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+        style={{ background: "linear-gradient(to top, #0a0a0f, transparent)" }}
+      />
     </section>
   );
 }

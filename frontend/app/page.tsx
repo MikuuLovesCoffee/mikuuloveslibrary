@@ -21,6 +21,9 @@ export default function Home() {
       try {
         const res = await api.get("/books");
         setBooks(res.data);
+      } catch {
+        // Handle error silently or set empty array
+        setBooks([]);
       } finally {
         setLoading(false);
       }
@@ -29,7 +32,6 @@ export default function Home() {
     loadBooks();
   }, []);
 
-  // Simulated categorization for demo (in production, this would come from the API)
   const featuredBooks = books.slice(0, 6);
   const recentBooks = [...books].reverse().slice(0, 6);
   const topRatedBooks = [...books]
@@ -43,14 +45,17 @@ export default function Home() {
         book.title?.toLowerCase().includes(selectedCategory)
       );
 
+  const stats = [
+    { icon: Library, value: books.length, label: "Total Books" },
+    { icon: TrendingUp, value: featuredBooks.length, label: "Featured" },
+    { icon: Star, value: topRatedBooks.filter(b => b.averageRating >= 4).length, label: "Top Rated" },
+    { icon: Clock, value: recentBooks.length, label: "Recent" },
+  ];
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      {loading ? (
-        <HeroSkeleton />
-      ) : (
-        <Hero />
-      )}
+      {loading ? <HeroSkeleton /> : <Hero />}
 
       {/* Main Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -89,12 +94,7 @@ export default function Home() {
               className="py-12"
             >
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[
-                  { icon: Library, value: books.length, label: "Total Books", color: "text-primary" },
-                  { icon: TrendingUp, value: featuredBooks.length, label: "Featured", color: "text-success" },
-                  { icon: Star, value: topRatedBooks.filter(b => b.averageRating >= 4).length, label: "Top Rated", color: "text-warning" },
-                  { icon: Clock, value: recentBooks.length, label: "Recent", color: "text-primary" },
-                ].map((stat, index) => {
+                {stats.map((stat, index) => {
                   const Icon = stat.icon;
                   return (
                     <motion.div
@@ -105,11 +105,14 @@ export default function Home() {
                       transition={{ duration: 0.5, delay: index * 0.1 }}
                       className="glass-card rounded-2xl p-6 text-center hover-lift cursor-default"
                     >
-                      <div className={`w-12 h-12 mx-auto mb-3 rounded-xl bg-primary/10 flex items-center justify-center ${stat.color}`}>
-                        <Icon className="w-6 h-6" />
+                      <div 
+                        className="w-12 h-12 mx-auto mb-3 rounded-xl flex items-center justify-center"
+                        style={{ backgroundColor: "rgba(212, 165, 116, 0.1)" }}
+                      >
+                        <Icon className="w-6 h-6" style={{ color: "#d4a574" }} />
                       </div>
-                      <div className="text-3xl font-bold text-foreground">{stat.value}</div>
-                      <div className="text-sm text-foreground-muted mt-1">{stat.label}</div>
+                      <div className="text-3xl font-bold" style={{ color: "#fafaf9" }}>{stat.value}</div>
+                      <div className="text-sm mt-1" style={{ color: "#a8a8a8" }}>{stat.label}</div>
                     </motion.div>
                   );
                 })}
@@ -175,7 +178,8 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="text-3xl sm:text-4xl font-bold text-foreground mb-4 text-balance"
+                className="text-3xl sm:text-4xl font-bold mb-4"
+                style={{ color: "#fafaf9" }}
               >
                 Share Your Knowledge
               </motion.h2>
@@ -184,7 +188,8 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 }}
-                className="text-foreground-muted text-lg max-w-2xl mx-auto mb-8 text-balance"
+                className="text-lg max-w-2xl mx-auto mb-8"
+                style={{ color: "#a8a8a8" }}
               >
                 Have a book you think others would love? Upload it to our library and help spread knowledge to readers worldwide.
               </motion.p>
@@ -196,7 +201,8 @@ export default function Home() {
                 transition={{ delay: 0.2 }}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-primary text-background font-semibold text-lg hover:bg-primary-hover transition-all shadow-glow"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-lg transition-all shadow-glow"
+                style={{ backgroundColor: "#d4a574", color: "#0a0a0f" }}
               >
                 Upload a Book
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

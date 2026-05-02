@@ -15,7 +15,6 @@ export default function BookCard({ book, index = 0 }: BookCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // 3D tilt effect
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -71,11 +70,19 @@ export default function BookCard({ book, index = 0 }: BookCardProps) {
       className="relative group"
     >
       <div 
-        className="relative rounded-2xl overflow-hidden bg-background-secondary border border-glass-border transition-all duration-500 group-hover:border-primary/30 group-hover:shadow-glow"
-        style={{ transformStyle: "preserve-3d" }}
+        className="relative rounded-2xl overflow-hidden transition-all duration-500"
+        style={{ 
+          backgroundColor: "#12121a", 
+          border: "1px solid rgba(255, 255, 255, 0.08)",
+          transformStyle: "preserve-3d",
+          boxShadow: isHovered ? "0 0 30px rgba(212, 165, 116, 0.15)" : "none"
+        }}
       >
         {/* Book Cover Image */}
-        <div className="relative aspect-[3/4] overflow-hidden bg-background">
+        <div 
+          className="relative aspect-[3/4] overflow-hidden"
+          style={{ backgroundColor: "#0a0a0f" }}
+        >
           {book.imageUrl ? (
             <motion.img
               src={book.imageUrl}
@@ -86,8 +93,11 @@ export default function BookCard({ book, index = 0 }: BookCardProps) {
               transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-primary/5">
-              <BookOpen className="w-16 h-16 text-primary/40" />
+            <div 
+              className="w-full h-full flex items-center justify-center"
+              style={{ background: "linear-gradient(to bottom right, rgba(212, 165, 116, 0.1), rgba(212, 165, 116, 0.05))" }}
+            >
+              <BookOpen className="w-16 h-16" style={{ color: "rgba(212, 165, 116, 0.4)" }} />
             </div>
           )}
 
@@ -96,7 +106,8 @@ export default function BookCard({ book, index = 0 }: BookCardProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: isHovered ? 1 : 0 }}
             transition={{ duration: 0.3 }}
-            className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent"
+            className="absolute inset-0"
+            style={{ background: "linear-gradient(to top, #0a0a0f, rgba(10, 10, 15, 0.5), transparent)" }}
           />
 
           {/* Quick Actions */}
@@ -113,54 +124,65 @@ export default function BookCard({ book, index = 0 }: BookCardProps) {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-primary text-background font-semibold text-sm hover:bg-primary-hover transition-colors"
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl font-semibold text-sm transition-colors"
+                style={{ backgroundColor: "#d4a574", color: "#0a0a0f" }}
               >
                 <Eye className="w-4 h-4" />
                 View Details
               </motion.button>
             </Link>
-            <motion.a
-              href={book.fileUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-12 h-10 flex items-center justify-center rounded-xl glass text-foreground hover:text-primary transition-colors"
-              aria-label="Download"
-            >
-              <Download className="w-4 h-4" />
-            </motion.a>
+            {book.fileUrl && (
+              <motion.a
+                href={book.fileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-12 h-10 flex items-center justify-center rounded-xl glass transition-colors"
+                style={{ color: "#fafaf9" }}
+                aria-label="Download"
+              >
+                <Download className="w-4 h-4" />
+              </motion.a>
+            )}
           </motion.div>
 
           {/* Rating Badge */}
           <div className="absolute top-3 right-3">
             <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg glass">
-              <Star className="w-3.5 h-3.5 text-primary fill-primary" />
-              <span className="text-sm font-semibold text-foreground">{rating}</span>
+              <Star className="w-3.5 h-3.5" style={{ color: "#d4a574", fill: "#d4a574" }} />
+              <span className="text-sm font-semibold" style={{ color: "#fafaf9" }}>{rating}</span>
             </div>
           </div>
         </div>
 
         {/* Content */}
         <div className="p-4" style={{ transform: "translateZ(20px)" }}>
-          {/* Title */}
-          <h3 className="text-lg font-semibold text-foreground line-clamp-1 mb-1 group-hover:text-primary transition-colors">
+          <h3 
+            className="text-lg font-semibold mb-1 transition-colors truncate"
+            style={{ color: isHovered ? "#d4a574" : "#fafaf9" }}
+          >
             {book.title}
           </h3>
 
-          {/* Description */}
-          <p className="text-sm text-foreground-muted line-clamp-2 mb-3 leading-relaxed">
+          <p 
+            className="text-sm mb-3 leading-relaxed line-clamp-2"
+            style={{ color: "#a8a8a8" }}
+          >
             {book.description || "No description available"}
           </p>
 
-          {/* Stats */}
-          <div className="flex items-center justify-between pt-3 border-t border-glass-border">
-            <div className="flex items-center gap-1 text-foreground-muted">
-              <Star className="w-4 h-4 text-primary" />
+          <div 
+            className="flex items-center justify-between pt-3"
+            style={{ borderTop: "1px solid rgba(255, 255, 255, 0.08)" }}
+          >
+            <div className="flex items-center gap-1" style={{ color: "#a8a8a8" }}>
+              <Star className="w-4 h-4" style={{ color: "#d4a574" }} />
               <span className="text-sm">{ratingCount} reviews</span>
             </div>
             <motion.div
-              className="flex items-center gap-1 text-primary opacity-0 group-hover:opacity-100 transition-opacity"
+              className="flex items-center gap-1 transition-opacity"
+              style={{ color: "#d4a574", opacity: isHovered ? 1 : 0 }}
               initial={{ x: -10 }}
               animate={{ x: isHovered ? 0 : -10 }}
             >

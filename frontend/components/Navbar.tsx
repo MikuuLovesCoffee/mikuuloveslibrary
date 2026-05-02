@@ -36,7 +36,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
@@ -48,26 +47,22 @@ export default function Navbar() {
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled 
-            ? "glass shadow-lg" 
-            : "bg-transparent"
+          scrolled ? "glass shadow-lg" : "bg-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-16 sm:h-20 flex items-center justify-between">
             {/* Logo */}
-            <Link 
-              href="/" 
-              className="flex items-center gap-2 group"
-            >
+            <Link href="/" className="flex items-center gap-2 group">
               <motion.div 
-                className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors"
+                className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors"
+                style={{ backgroundColor: "rgba(212, 165, 116, 0.2)" }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <BookOpen className="w-5 h-5 text-primary" />
+                <BookOpen className="w-5 h-5" style={{ color: "#d4a574" }} />
               </motion.div>
-              <span className="text-xl font-bold text-foreground hidden sm:block">
+              <span className="text-xl font-bold hidden sm:block" style={{ color: "#fafaf9" }}>
                 BookSphere
               </span>
             </Link>
@@ -82,17 +77,17 @@ export default function Navbar() {
                     href={link.href}
                     className="relative px-4 py-2 rounded-lg group"
                   >
-                    <span className={`text-sm font-medium transition-colors duration-200 ${
-                      isActive 
-                        ? "text-primary" 
-                        : "text-foreground-muted group-hover:text-foreground"
-                    }`}>
+                    <span 
+                      className="text-sm font-medium transition-colors duration-200"
+                      style={{ color: isActive ? "#d4a574" : "#a8a8a8" }}
+                    >
                       {link.label}
                     </span>
                     {isActive && (
                       <motion.div
                         layoutId="navbar-indicator"
-                        className="absolute inset-0 rounded-lg bg-primary/10 -z-10"
+                        className="absolute inset-0 rounded-lg -z-10"
+                        style={{ backgroundColor: "rgba(212, 165, 116, 0.1)" }}
                         transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                       />
                     )}
@@ -108,7 +103,8 @@ export default function Navbar() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setSearchOpen(true)}
-                className="w-10 h-10 rounded-xl glass flex items-center justify-center text-foreground-muted hover:text-foreground transition-colors"
+                className="w-10 h-10 rounded-xl glass flex items-center justify-center transition-colors"
+                style={{ color: "#a8a8a8" }}
                 aria-label="Search"
               >
                 <Search className="w-5 h-5" />
@@ -119,7 +115,8 @@ export default function Navbar() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-background font-semibold text-sm hover:bg-primary-hover transition-colors shadow-glow"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-colors shadow-glow"
+                  style={{ backgroundColor: "#d4a574", color: "#0a0a0f" }}
                 >
                   <LogIn className="w-4 h-4" />
                   Login
@@ -131,7 +128,8 @@ export default function Navbar() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden w-10 h-10 rounded-xl glass flex items-center justify-center text-foreground"
+                className="md:hidden w-10 h-10 rounded-xl glass flex items-center justify-center"
+                style={{ color: "#fafaf9" }}
                 aria-label="Toggle menu"
               >
                 <AnimatePresence mode="wait">
@@ -170,7 +168,8 @@ export default function Navbar() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="md:hidden overflow-hidden glass border-t border-glass-border"
+              className="md:hidden overflow-hidden glass"
+              style={{ borderTop: "1px solid rgba(255, 255, 255, 0.08)" }}
             >
               <div className="px-4 py-4 space-y-2">
                 {navLinks.map((link, index) => {
@@ -185,11 +184,11 @@ export default function Navbar() {
                     >
                       <Link
                         href={link.href}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
-                          isActive
-                            ? "bg-primary/10 text-primary"
-                            : "text-foreground-muted hover:bg-glass-highlight hover:text-foreground"
-                        }`}
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200"
+                        style={{ 
+                          backgroundColor: isActive ? "rgba(212, 165, 116, 0.1)" : "transparent",
+                          color: isActive ? "#d4a574" : "#a8a8a8"
+                        }}
                       >
                         <Icon className="w-5 h-5" />
                         <span className="font-medium">{link.label}</span>
@@ -205,7 +204,10 @@ export default function Navbar() {
                   transition={{ delay: navLinks.length * 0.1 }}
                 >
                   <Link href="/login">
-                    <button className="w-full flex items-center justify-center gap-2 px-4 py-3 mt-2 rounded-xl bg-primary text-background font-semibold hover:bg-primary-hover transition-colors">
+                    <button 
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3 mt-2 rounded-xl font-semibold transition-colors"
+                      style={{ backgroundColor: "#d4a574", color: "#0a0a0f" }}
+                    >
                       <LogIn className="w-5 h-5" />
                       Login
                     </button>
@@ -228,7 +230,10 @@ export default function Navbar() {
             onClick={() => setSearchOpen(false)}
           >
             {/* Backdrop */}
-            <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+            <div 
+              className="absolute inset-0 backdrop-blur-sm"
+              style={{ backgroundColor: "rgba(10, 10, 15, 0.8)" }}
+            />
             
             {/* Search Box */}
             <motion.div
@@ -240,23 +245,31 @@ export default function Navbar() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center gap-3 px-4">
-                <Search className="w-5 h-5 text-foreground-muted" />
+                <Search className="w-5 h-5" style={{ color: "#a8a8a8" }} />
                 <input
                   type="text"
                   placeholder="Search books, authors, categories..."
-                  className="flex-1 bg-transparent py-4 text-lg text-foreground placeholder-foreground-muted outline-none"
+                  className="flex-1 bg-transparent py-4 text-lg outline-none"
+                  style={{ color: "#fafaf9" }}
                   autoFocus
                 />
                 <button
                   onClick={() => setSearchOpen(false)}
-                  className="p-2 rounded-lg hover:bg-glass-highlight text-foreground-muted hover:text-foreground transition-colors"
+                  className="p-2 rounded-lg transition-colors"
+                  style={{ color: "#a8a8a8" }}
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <div className="px-4 py-3 border-t border-glass-border">
-                <p className="text-sm text-foreground-muted">
-                  Press <kbd className="px-2 py-0.5 rounded bg-background-secondary text-foreground text-xs">ESC</kbd> to close
+              <div 
+                className="px-4 py-3"
+                style={{ borderTop: "1px solid rgba(255, 255, 255, 0.08)" }}
+              >
+                <p className="text-sm" style={{ color: "#a8a8a8" }}>
+                  Press <kbd 
+                    className="px-2 py-0.5 rounded text-xs"
+                    style={{ backgroundColor: "#12121a", color: "#fafaf9" }}
+                  >ESC</kbd> to close
                 </p>
               </div>
             </motion.div>
