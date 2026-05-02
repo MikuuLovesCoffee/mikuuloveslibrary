@@ -23,14 +23,14 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="w-full bg-white">
+    <div className="w-full bg-[#dfd3c0]">
       <div className="w-full px-4 sm:px-6 lg:px-8 py-12">
         <div className="max-w-7xl mx-auto">
 
           {/* HEADER */}
           <div className="mb-12">
             <h1 className="text-5xl font-bold text-black mb-4">
-              Discover Books
+              
             </h1>
             <p className="text-2xl text-gray-700">
               Explore knowledge and ideas from readers like you

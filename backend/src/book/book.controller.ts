@@ -39,7 +39,7 @@ export class BookController {
 
   @Post('upload')
   @UseGuards(JwtGuard, RolesGuard)
-  @Roles('Uploader')
+  @Roles('Uploader', 'Admin')
   @UseInterceptors(
     FileInterceptor('file', {
       storage: multer.memoryStorage(),
@@ -62,7 +62,7 @@ export class BookController {
       {
         title: body.title,
         description: body.description,
-        fileUrl, // ← directly use returned URL
+        fileUrl,
         imageUrl: body.imageUrl,
       },
       req.user.userId,
