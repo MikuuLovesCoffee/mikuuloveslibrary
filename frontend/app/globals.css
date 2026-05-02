@@ -7,13 +7,13 @@
    ======================================== */
 
 :root {
-  /* Primary Colors */
-  --background: #0a0a0f;
+  /* Primary Colors #0a0a0f*/
+  --background: #0a0a0f ;
   --background-secondary: #12121a;
   --foreground: #fafaf9;
   --foreground-muted: #a8a8a8;
   
-  /* Accent Colors */
+  /* Accent Colors d4a574*/
   --primary: #d4a574;
   --primary-hover: #e6b885;
   --primary-muted: rgba(212, 165, 116, 0.15);
