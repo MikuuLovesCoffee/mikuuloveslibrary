@@ -28,7 +28,7 @@ export class StorageService {
       }),
     );
 
-    return `${process.env.S3_ENDPOINT}/${process.env.S3_BUCKET}/${fileName}`;
+    return `${process.env.S3_PUBLIC_BASE}/${fileName}`;
   }
 
   async delete(fileName: string) {

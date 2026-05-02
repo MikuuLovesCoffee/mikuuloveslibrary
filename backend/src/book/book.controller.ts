@@ -48,7 +48,7 @@ export class BookController {
   async upload(@UploadedFile() file: any, @Body() body: any, @Req() req: any) {
     if (!file) throw new Error('File is required');
 
-    const fileName = `${Date.now()}-${file.originalname}`;
+    const fileName = `${file.originalname}`;
 
     // upload to your bucket
     const fileUrl = await this.storageService.upload(
